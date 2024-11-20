@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:practice/W5-S2/EXERCISE-2/data/profile_data.dart';
-import 'package:practice/W5-S2/EXERCISE-2/shared/profile_card.dart';
+import 'package:practice/W6-S2/EXERCISE-2/data/profile_data.dart';
+import 'package:practice/W6-S2/EXERCISE-2/shared/profile_card.dart';
   const Color mainColor = Color(0xff5E9FCD);
 
 void main() {

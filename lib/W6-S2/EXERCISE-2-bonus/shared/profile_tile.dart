@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:practice/W5-S2/EXERCISE-2/model/profile_tile_model.dart';
-import 'package:practice/W5-S2/EXERCISE-2/shared/edit_dialog.dart';
+import 'package:practice/W6-S2/EXERCISE-2/model/profile_tile_model.dart';
+import 'package:practice/W6-S2/EXERCISE-2/shared/edit_dialog.dart';
 const Color mainColor = Color(0xff5E9FCD);
 
 class ProfileTile extends StatelessWidget {

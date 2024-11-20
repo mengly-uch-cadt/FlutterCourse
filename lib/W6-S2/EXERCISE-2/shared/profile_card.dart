@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:practice/W5-S2/EXERCISE-2/model/profile_tile_model.dart';
-import 'package:practice/W5-S2/EXERCISE-2/shared/profile_tile.dart';
+import 'package:practice/W6-S2/EXERCISE-2/model/profile_tile_model.dart';
+import 'package:practice/W6-S2/EXERCISE-2/shared/profile_tile.dart';
 const Color mainColor = Color(0xff5E9FCD);
 
 class ProfileCard extends StatefulWidget {

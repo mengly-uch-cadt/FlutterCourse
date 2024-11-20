@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:practice/W5-S2/EXERCISE-4/jokes.dart';
+import 'package:practice/W6-S2/EXERCISE-4/jokes.dart';
 
 Color appColor = Colors.green[300] as Color;
 

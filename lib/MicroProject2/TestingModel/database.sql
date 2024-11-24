@@ -9,11 +9,13 @@ CREATE TABLE participants (
 CREATE TABLE quizzes (
     quiz_id VARCHAR(36) PRIMARY KEY,
     title VARCHAR(255)
-); 
+);
 
 CREATE TABLE questions (
     question_id VARCHAR(36) PRIMARY KEY,
-    title VARCHAR(255)
+    title VARCHAR(255),
+    possible_answers TEXT,
+    good_answer TEXT
 );
 
 CREATE TABLE answers (
@@ -34,7 +36,7 @@ CREATE TABLE quiz_questions (
 CREATE TABLE submissions (
     submission_id VARCHAR(36) PRIMARY KEY,
     quiz_id VARCHAR(36),
-    participant_id VARCHAR(36), -- Match data type with participants(participant_id)
+    participant_id VARCHAR(36),
     FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id) ON DELETE CASCADE,
     FOREIGN KEY (participant_id) REFERENCES participants(participant_id) ON DELETE CASCADE
 );

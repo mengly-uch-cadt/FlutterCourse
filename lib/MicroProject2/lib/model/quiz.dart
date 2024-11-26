@@ -1,15 +1,24 @@
- 
+import 'package:uuid/uuid.dart';
+
 class Quiz {
+  static const Uuid uuid = Uuid();
+  final String quizId;
   final String title;
-  final List<Question> questions;
+  final List<String> questionsId;
 
-  Quiz({required this.title, required this.questions});
-}
+  // Constructor for creating a new Quiz
+  Quiz(this.title)
+      : quizId = Quiz.uuid.v4(),
+        questionsId = [];
 
-class Question {
-  final String title;
-  final List<String> possibleAnswers;
-  final String goodAnswer;
+  // Named constructor for initializing from database row and associated questions
+  Quiz.fromDatabase(Map<String, dynamic> row, List<String> associatedQuestions)
+      : quizId = row['quiz_id'],
+        title = row['title'],
+        questionsId = associatedQuestions;
 
-  const Question({required this.title, required this.possibleAnswers, required this.goodAnswer});
+  // Add a question to the quiz
+  void addQuestion(String questionId) {
+    questionsId.add(questionId);
+  }
 }

@@ -11,8 +11,12 @@ class Participant {
   late final String hashedPassword;
 
   // Constructor for creating a new participant
-  Participant(this.firstName, this.lastName, this.phoneNumber, String password)
-      : participantId = uuid.v4(),
+  Participant({
+    required this.firstName, 
+    required this.lastName, 
+    required this.phoneNumber, 
+    required String password
+  })  : participantId = uuid.v4(),
         hashedPassword = _hashPassword(password);
 
   // Named constructor for initializing from database row

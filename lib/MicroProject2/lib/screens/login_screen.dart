@@ -13,8 +13,9 @@ Color appColor = Colors.blue[500] as Color;
 
 class LoginScreen extends ConsumerStatefulWidget {
   final VoidCallback onLoginSuccess;
+  final VoidCallback onSignUp;
 
-  const LoginScreen({super.key, required this.onLoginSuccess});
+  const LoginScreen({super.key, required this.onLoginSuccess, required this.onSignUp});
 
   @override
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
@@ -127,18 +128,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ref.read(participantProvider.notifier).addParticipant(participant);
 
                           // If login is successful, show a success message
+                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Login successful')),
                           );
                           widget.onLoginSuccess();
                         } else {
                           // If login fails, show an error message
+                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Invalid phone number or password')),
                           );
                         }
                       } else {
                         // If connection is still null, show an error message
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Database connection failed')),
                         );
@@ -157,8 +161,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     TextButton(
-                      // onPressed: widget.onLoginSuccess,
-                      onPressed: (){},
+                      onPressed: widget.onSignUp,
                       child: Text(
                         "Sign up",
                         style: Theme.of(context)

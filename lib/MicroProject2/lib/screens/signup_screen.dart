@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:practice/MicroProject2/lib/model/participant.dart';
 import 'package:practice/MicroProject2/lib/database/database.dart';
-import 'package:practice/MicroProject2/lib/screens/login_screen.dart';
 import 'package:practice/MicroProject2/lib/util/participant_util.dart';
 import 'package:practice/MicroProject2/lib/widgets/quiz_button.dart';
 import 'package:practice/MicroProject2/lib/widgets/quiz_password_field.dart';
@@ -12,8 +11,9 @@ Color appColor = Colors.blue[500] as Color;
 class SignupScreen extends StatefulWidget {
 
   final VoidCallback onSignupSuccess;
+  final VoidCallback onLogin;
 
-  const SignupScreen({super.key, required this.onSignupSuccess});
+  const SignupScreen({super.key, required this.onSignupSuccess, required this.onLogin});
 
   @override
   State<SignupScreen> createState() => _LoginScreenState();
@@ -26,19 +26,17 @@ class _LoginScreenState extends State<SignupScreen> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  // Make connection nullable to avoid LateInitializationError
   MySqlConnection? connection;
 
   // Initialize the connection asynchronously
   Future<void> _initializeDatabase() async {
-    connection = await Database.connect();  // Connect to the database
+    connection = await Database.connect();
   }
 
   @override
   void initState() {
     super.initState();
-    _initializeDatabase();  // Initialize the connection when the widget is created
+    _initializeDatabase();
   }
 
   @override
@@ -54,12 +52,11 @@ class _LoginScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: appColor, // Use the backgroundColor from the appBarTheme in primaryTheme
+        backgroundColor: appColor,
       ),
       backgroundColor: appColor,
       body: SingleChildScrollView(
         child: Center(
-          // Center widget for overall centering
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Form(
@@ -147,10 +144,10 @@ class _LoginScreenState extends State<SignupScreen> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         final Participant participant = Participant(
-                          _firstNameController.text,
-                          _lastNameController.text,
-                          _phoneController.text,
-                          _passwordController.text,
+                          firstName: _firstNameController.text,
+                          lastName: _lastNameController.text,
+                          phoneNumber: _phoneController.text,
+                          password: _passwordController.text,
                         );
                         if (connection == null) {
                           await _initializeDatabase();
@@ -158,8 +155,9 @@ class _LoginScreenState extends State<SignupScreen> {
                         // Proceed only if connection is ready
                         if (connection != null) {
                           final response = await saveParticipant(connection!, participant);
+                          // ignore: unnecessary_null_comparison
                           if (response != null) {
-                            // If sign up is successful, navigate to a different screen
+                            // ignore: use_build_context_synchronously
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Sign up successful')),
                             );
@@ -167,6 +165,7 @@ class _LoginScreenState extends State<SignupScreen> {
                             // go to home screen
                           } else {
                             // If sign up fails, show an error message
+                            // ignore: use_build_context_synchronously
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Sign up failed')),
                             );
@@ -174,6 +173,7 @@ class _LoginScreenState extends State<SignupScreen> {
 
                         } else {
                           // If login fails, show an error message
+                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Invalid phone number or password')),
                           );
@@ -199,7 +199,7 @@ class _LoginScreenState extends State<SignupScreen> {
                             ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       TextButton(
-                        onPressed: widget.onSignupSuccess,
+                        onPressed: widget.onLogin,
                         child: Text(
                           "Login",
                           style: Theme.of(context)

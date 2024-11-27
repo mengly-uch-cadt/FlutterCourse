@@ -1,0 +1,56 @@
+============================================
+// Step 2: Add a participant
+Participant participant = Participant("Sok", "SurSdey", "012000003", "password");
+await saveParticipant(connection, participant);
+print("Participant saved: ${participant.participantId}");
+============================================
+// Crate quiz , question and linked its
+--------------------------------------------
+// Step 1: Add a new quiz with different title
+Quiz quiz = Quiz("Science Quiz");
+await saveQuiz(connection, quiz);
+print("Quiz saved: ${quiz.quizId}");
+
+// Step 2: Define a new list of questions to add to the quiz
+List<Question> questions = [
+  Question("What is the chemical symbol for water?")..possibleAnswers = ["H2O", "O2", "CO2"]..goodAnswer = "H2O",
+  Question("What is the largest planet in our solar system?")..possibleAnswers = ['Earth', 'Jupiter', 'Saturn']..goodAnswer = "Jupiter",
+  Question("What is the speed of light?")..possibleAnswers = ['300,000 km/s', '150,000 km/s', '600,000 km/s']..goodAnswer = "300,000 km/s",
+  Question("What is the atomic number of carbon?")..possibleAnswers = ['6', '8', '12']..goodAnswer = "6",
+  Question("Who developed the theory of relativity?")..possibleAnswers = ["Isaac Newton", "Albert Einstein", "Galileo Galilei"]..goodAnswer = "Albert Einstein"
+];
+
+// Step 3: Save new questions to the database and add to the quiz
+for (var question in questions) {
+  await saveQuestion(connection, question); // Save each question
+  quiz.addQuestion(question.questionId); // Link each question to the quiz
+}
+
+// Step 4: Save the quiz again after all questions are added
+await saveQuiz(connection, quiz);
+print("Quiz questions linked.");
+--------------------------------------------
+  // Step 1: Add a quiz
+  Quiz quiz = Quiz("General Knowledge Quiz");
+  await saveQuiz(connection, quiz);
+  print("Quiz saved: ${quiz.quizId}");
+
+  // Step 2: Define a list of questions to add to the quiz
+  List<Question> questions = [
+    Question("What is the capital of France?")..possibleAnswers = ["Paris", "Berlin", "Madrid"]..goodAnswer = "Paris",
+    Question("What is the largest ocean on Earth?")..possibleAnswers = ['Atlantic', 'Pacific', 'Indian']..goodAnswer = "Pacific",
+    Question("Which planet is known as the Red Planet?")..possibleAnswers = ['Earth', 'Mars', 'Venus']..goodAnswer = "Mars",
+    Question("What is the tallest mountain in the world?")..possibleAnswers = ['K2', 'Mount Everest', 'Kangchenjunga']..goodAnswer = "Mount Everest",
+    Question("Who is the best teacher?")..possibleAnswers = ["Mengly", "Hongly", "Ronan"]..goodAnswer = "Mengly"
+  ];
+
+  // Step 3: Save questions to the database and add to quiz
+  for (var question in questions) {
+    await saveQuestion(connection, question); // Save each question
+    quiz.addQuestion(question.questionId); // Link each question to the quiz
+  }
+
+  // Step 4: Save the quiz again after all questions are added
+  await saveQuiz(connection, quiz);
+  print("Quiz questions linked.");
+============================================ 

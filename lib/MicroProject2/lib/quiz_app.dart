@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:practice/MicroProject2/lib/screens/login_screen.dart';
+import 'package:practice/MicroProject2/lib/screens/question_screen.dart';
 import 'package:practice/MicroProject2/lib/screens/signup_screen.dart';
 import 'package:practice/MicroProject2/lib/screens/welcome_screen.dart';
-import 'package:practice/MicroProject2/lib/widgets/app_button.dart';
 // import 'model/quiz.dart';
 
 Color appColor = Colors.blue[500] as Color;
@@ -17,13 +17,6 @@ enum Screen {
 Screen screen = Screen.welcome;
 class QuizApp extends StatefulWidget {
   const QuizApp({super.key});
-
-  // final Quiz quiz;
-
-  // const QuizApp(this.quiz, {super.key});
-
-  // final Quiz quiz;
-
   @override
   State<QuizApp> createState() => _QuizAppState();
 }
@@ -33,13 +26,19 @@ class _QuizAppState extends State<QuizApp> {
   currentScreen() {
     switch (screen) {
       case Screen.login:
-        return LoginScreen(onLoginSuccess: () => changeScreen(Screen.welcome),);
+        return LoginScreen(
+          onLoginSuccess: () => changeScreen(Screen.welcome), 
+          onSignUp: () => changeScreen(Screen.signup),
+        );
       case Screen.signup:
-        return SignupScreen(onSignupSuccess: () => changeScreen(Screen.welcome),);
+        return SignupScreen(
+          onSignupSuccess: () => changeScreen(Screen.welcome),
+          onLogin: () => changeScreen(Screen.login),
+        );
       case Screen.welcome:
-        return const WelcomeScreen();
+        return WelcomeScreen(onStartQuiz: () => changeScreen(Screen.quiz),);
       case Screen.quiz:
-        return Container();
+        return QuestionScreen();
       case Screen.result:
         return Container();
     }
@@ -50,12 +49,6 @@ class _QuizAppState extends State<QuizApp> {
       screen = newScreen;
     });
   }
-  get onTap {
-     return () {
-      print('Start Quiz');
-    };
-  }
-
   
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,7 @@ class Question {
   List<String> possibleAnswers = [];
   String goodAnswer = '';
 
-  Question(this.title) : questionId = Question.uuid.v4();
+  Question({required this.title, required this.possibleAnswers, required this.goodAnswer}) : questionId = Question.uuid.v4();
 
   // Named constructor for initializing from database row
   Question.fromDatabase(Map<String, dynamic> row)

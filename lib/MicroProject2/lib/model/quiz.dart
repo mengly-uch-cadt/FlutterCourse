@@ -7,7 +7,7 @@ class Quiz {
   final List<String> questionsId;
 
   // Constructor for creating a new Quiz
-  Quiz(this.title)
+  Quiz({required this.title})
       : quizId = Quiz.uuid.v4(),
         questionsId = [];
 

@@ -28,7 +28,7 @@ Color appColor = Colors.blue[500] as Color;
                   const SizedBox(height: 20),
                   const Text("Crazy Quiz", style: TextStyle(fontSize: 30, color: Colors.white)),
                   const SizedBox(height: 20),
-                  Text( participant == null ? "Welcome" :
+                  Text( participant == null ? "Welcome Guest !!!" :
                     "Welcome:  ${participant.firstName} ${participant.lastName} !!!", 
                     style: const TextStyle(
                       color: Colors.white, 

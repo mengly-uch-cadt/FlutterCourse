@@ -11,7 +11,7 @@ class Quiz {
       : quizId = Quiz.uuid.v4(),
         questionsId = [];
 
-  // Named constructor for initializing from database row and associated questions
+   // Named constructor for initializing from database row and associated questions
   Quiz.fromDatabase(Map<String, dynamic> row, List<String> associatedQuestions)
       : quizId = row['quiz_id'],
         title = row['title'],

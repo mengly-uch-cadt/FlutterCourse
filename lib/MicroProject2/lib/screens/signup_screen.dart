@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:practice/MicroProject2/lib/model/participant.dart';
 import 'package:practice/MicroProject2/lib/database/database.dart';
+import 'package:practice/MicroProject2/lib/state/participant_state.dart';
 import 'package:practice/MicroProject2/lib/util/participant_util.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'; // Add this import
 import 'package:practice/MicroProject2/lib/widgets/quiz_button.dart';
 import 'package:practice/MicroProject2/lib/widgets/quiz_password_field.dart';
 import 'package:practice/MicroProject2/lib/widgets/quiz_text_form_field.dart';
 Color appColor = Colors.blue[500] as Color;
 
-class SignupScreen extends StatefulWidget {
+class SignupScreen extends ConsumerStatefulWidget {
 
   final VoidCallback onSignupSuccess;
   final VoidCallback onLogin;
@@ -16,10 +18,10 @@ class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key, required this.onSignupSuccess, required this.onLogin});
 
   @override
-  State<SignupScreen> createState() => _LoginScreenState();
+  ConsumerState<SignupScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<SignupScreen> {
+class _LoginScreenState extends ConsumerState<SignupScreen> {
   // final AuthService _authService = AuthService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _firstNameController = TextEditingController();
@@ -157,6 +159,8 @@ class _LoginScreenState extends State<SignupScreen> {
                           final response = await saveParticipant(connection!, participant);
                           // ignore: unnecessary_null_comparison
                           if (response != null) {
+                            final Participant participant = response;
+                            ref.read(participantProvider.notifier).addParticipant(participant);
                             // ignore: use_build_context_synchronously
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Sign up successful')),

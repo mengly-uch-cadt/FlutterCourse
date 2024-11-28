@@ -16,6 +16,5 @@ class ParticipantNotifier extends StateNotifier<Participant?> {
 }
 
 // Create a Riverpod provider
-final participantProvider =
-    StateNotifierProvider<ParticipantNotifier, Participant?>(
+final participantProvider = StateNotifierProvider<ParticipantNotifier, Participant?>(
         (ref) => ParticipantNotifier());

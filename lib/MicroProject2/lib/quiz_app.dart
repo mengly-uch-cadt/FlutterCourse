@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mysql1/mysql1.dart';
+import 'package:practice/MicroProject2/lib/screens/choose_quiz_screen.dart';
 import 'package:practice/MicroProject2/lib/screens/login_screen.dart';
 import 'package:practice/MicroProject2/lib/screens/question_screen.dart';
 import 'package:practice/MicroProject2/lib/screens/signup_screen.dart';
 import 'package:practice/MicroProject2/lib/screens/welcome_screen.dart';
+import 'package:practice/MicroProject2/lib/util/quiz_util.dart';
 // import 'model/quiz.dart';
 
 Color appColor = Colors.blue[500] as Color;
@@ -10,6 +13,7 @@ enum Screen {
   login,
   signup,
   welcome,
+  chooseQuiz,
   quiz,
   result
 }
@@ -23,6 +27,8 @@ class QuizApp extends StatefulWidget {
 
 class _QuizAppState extends State<QuizApp> {
   Screen screen = Screen.login;
+  List<String> questionsId = [];
+
   currentScreen() {
     switch (screen) {
       case Screen.login:
@@ -36,9 +42,15 @@ class _QuizAppState extends State<QuizApp> {
           onLogin: () => changeScreen(Screen.login),
         );
       case Screen.welcome:
-        return WelcomeScreen(onStartQuiz: () => changeScreen(Screen.quiz),);
+        return WelcomeScreen(
+          onStartQuiz: () => changeScreen(Screen.chooseQuiz),
+        );
+      case Screen.chooseQuiz:
+        return ChooseQuizScreen(
+          onChooseQuiz: onChooseQuiz,
+        );
       case Screen.quiz:
-        return QuestionScreen();
+        return QuestionScreen(questionsId: questionsId);
       case Screen.result:
         return Container();
     }
@@ -49,15 +61,17 @@ class _QuizAppState extends State<QuizApp> {
       screen = newScreen;
     });
   }
+
+  onChooseQuiz(List<String> questions_id) {
+    this.questionsId = questions_id;
+    changeScreen(Screen.quiz);
+  }
   
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: appColor,
-        body: currentScreen(),
-      ),
+      home: currentScreen(),
     );
   }
 }

@@ -16,3 +16,20 @@ class QuizNotifier extends StateNotifier<List<Quiz>> {
 final quizProvider = StateNotifierProvider<QuizNotifier, List<Quiz>>(
   (ref) => QuizNotifier(),
 );
+
+
+class SelectQuizNotifier extends StateNotifier<Quiz?> {
+  SelectQuizNotifier() : super(null);
+
+  void selectQuiz(Quiz quiz) {
+    state = quiz;
+  }
+
+  void clearQuiz() {
+    state = null;
+  }
+}
+
+final selectQuizProvider = StateNotifierProvider<SelectQuizNotifier, Quiz?>(
+  (ref) => SelectQuizNotifier(),
+);

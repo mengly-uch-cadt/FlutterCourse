@@ -2,15 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:practice/MicroProject2/lib/database/database.dart';
+import 'package:practice/MicroProject2/lib/model/answer.dart';
+import 'package:practice/MicroProject2/lib/model/submission.dart';
+import 'package:practice/MicroProject2/lib/state/participant_state.dart';
 import 'package:practice/MicroProject2/lib/state/question_state.dart';
+import 'package:practice/MicroProject2/lib/state/quiz_state.dart';
 import 'package:practice/MicroProject2/lib/util/question_util.dart';
+import 'package:practice/MicroProject2/lib/util/submission_util.dart';
 import 'package:practice/MicroProject2/lib/widgets/show_question.dart';
 
 Color appColor = Colors.blue[500] as Color;
 
 class QuestionScreen extends ConsumerStatefulWidget {
+  final VoidCallback onFinishQuiz;
   final List<String> questionsId;
-  const QuestionScreen({super.key, required this.questionsId});
+  const QuestionScreen( {super.key, required this.questionsId, required this.onFinishQuiz});
 
   @override
   ConsumerState<QuestionScreen> createState() => _QuestionScreenState();
@@ -19,6 +25,8 @@ class QuestionScreen extends ConsumerStatefulWidget {
 class _QuestionScreenState extends ConsumerState<QuestionScreen> {
   MySqlConnection? connection;
   int currentQuestion = 0; // To keep track of the current question
+  List<Map<String, String>> questionAnswers = [];
+  Map<String, String> selectedAnswers = {}; // To store selected answers for each question
 
   @override
   void initState() {
@@ -36,6 +44,28 @@ class _QuestionScreenState extends ConsumerState<QuestionScreen> {
     } catch (e) {
       const SnackBar(content: Text('Failed to fetch questions'));
     }
+  }
+
+  void onAnswerSelected(String questionId, String answer) {
+    selectedAnswers[questionId] = answer; 
+    final existingAnswerIndex = questionAnswers.indexWhere((qa) => qa['questionId'] == questionId);
+    if (existingAnswerIndex != -1) {
+      questionAnswers[existingAnswerIndex]['answer'] = answer;
+    } else {
+      questionAnswers.add({'questionId': questionId, 'answer': answer});
+    }
+  }
+
+  void onSubmit(){
+    final participant = ref.read(participantProvider);
+    final quiz = ref.read(selectQuizProvider);
+    final submission = Submission(participantId: participant!.participantId, quizId: quiz!.quizId);
+    // List<String> answers = questionAnswers.map((qa) => qa.values.first).toList();
+    List<Answer> answers = questionAnswers.map((qa) => Answer(questionId: qa['questionId']!, answer: qa['answer']!)).toList();
+
+    saveSubmission(connection!, submission, answers);
+
+
   }
 
   @override
@@ -58,8 +88,13 @@ class _QuestionScreenState extends ConsumerState<QuestionScreen> {
                 children: <Widget>[
                   // Show the current question
                   ShowQuestion(
+                    key: ValueKey(currentQuestion), 
                     question: questions[currentQuestion],
-                    orderQuestion: currentQuestion + 1, // Displaying the question number (1-based index)
+                    orderQuestion: currentQuestion + 1, 
+                    selectedAnswer: selectedAnswers[questions[currentQuestion].questionId], 
+                    onAnswer: (String answer) {
+                     onAnswerSelected(questions[currentQuestion].questionId, answer);
+                    },
                   ),
                   // Navigation buttons
                   Row(
@@ -98,6 +133,8 @@ class _QuestionScreenState extends ConsumerState<QuestionScreen> {
                             backgroundColor: Colors.green[200],
                           ),
                           onPressed: () {
+                            onSubmit();
+                            widget.onFinishQuiz();
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Quiz completed!')),
                             );

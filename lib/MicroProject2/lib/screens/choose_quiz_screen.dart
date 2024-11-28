@@ -79,6 +79,7 @@ class _ChooseQuizScreenState extends ConsumerState<ChooseQuizScreen> {
                     ),
                     trailing: const Icon(Icons.arrow_forward),
                     onTap: () {
+                      ref.read(selectQuizProvider.notifier).selectQuiz(quiz);
                       widget.onChooseQuiz(quiz.questionsId);
                     },
                   ),

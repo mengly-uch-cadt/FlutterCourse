@@ -4,12 +4,10 @@ import 'package:practice/MicroProject2/lib/model/submission.dart';
 
 Future<Submission> saveSubmission(MySqlConnection connection, Submission submission, List<Answer> answers) async {
   List<String> listAnswersId = [];
-  // If no existing submission, insert it into the submissions table
   for (var answer in answers) {
-    // Insert the answer into the 'answers' table
     await connection.query(
       'INSERT INTO answers (answer_id, question_id, answer) VALUES (?, ?, ?)',
-      [answer.answerId, answer.questionId, answer.answer],  // Assuming answer contains questionId and the answer text
+      [answer.answerId, answer.questionId, answer.answer],
     );
     listAnswersId.add(answer.answerId);
   }

@@ -17,5 +17,4 @@ class Answer {
   bool isCorrect(String userAnswer) {
     return userAnswer.trim().toLowerCase() == answer.trim().toLowerCase();
   }
-
 }

@@ -7,6 +7,7 @@ import 'package:practice/MicroProject2/lib/model/submission.dart';
 import 'package:practice/MicroProject2/lib/state/participant_state.dart';
 import 'package:practice/MicroProject2/lib/state/question_state.dart';
 import 'package:practice/MicroProject2/lib/state/quiz_state.dart';
+import 'package:practice/MicroProject2/lib/state/submit_sate.dart';
 import 'package:practice/MicroProject2/lib/util/question_util.dart';
 import 'package:practice/MicroProject2/lib/util/submission_util.dart';
 import 'package:practice/MicroProject2/lib/widgets/show_question.dart';
@@ -62,10 +63,9 @@ class _QuestionScreenState extends ConsumerState<QuestionScreen> {
     final submission = Submission(participantId: participant!.participantId, quizId: quiz!.quizId);
     // List<String> answers = questionAnswers.map((qa) => qa.values.first).toList();
     List<Answer> answers = questionAnswers.map((qa) => Answer(questionId: qa['questionId']!, answer: qa['answer']!)).toList();
+    ref.read(submitProvider.notifier).saveSubmission(questionAnswers);
 
     saveSubmission(connection!, submission, answers);
-
-
   }
 
   @override

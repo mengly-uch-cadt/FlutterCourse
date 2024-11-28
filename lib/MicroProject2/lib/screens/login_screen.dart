@@ -5,7 +5,6 @@ import 'package:practice/MicroProject2/lib/database/database.dart';
 import 'package:practice/MicroProject2/lib/model/participant.dart';
 import 'package:practice/MicroProject2/lib/state/participant_state.dart';
 import 'package:practice/MicroProject2/lib/util/participant_util.dart';
-import 'package:practice/MicroProject2/lib/util/question_util.dart';
 import 'package:practice/MicroProject2/lib/widgets/quiz_button.dart';
 import 'package:practice/MicroProject2/lib/widgets/quiz_password_field.dart';
 import 'package:practice/MicroProject2/lib/widgets/quiz_text_form_field.dart';

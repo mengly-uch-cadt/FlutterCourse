@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mysql1/mysql1.dart';
 import 'package:practice/MicroProject2/lib/screens/choose_quiz_screen.dart';
 import 'package:practice/MicroProject2/lib/screens/login_screen.dart';
 import 'package:practice/MicroProject2/lib/screens/question_screen.dart';
 import 'package:practice/MicroProject2/lib/screens/result_screen.dart';
 import 'package:practice/MicroProject2/lib/screens/signup_screen.dart';
 import 'package:practice/MicroProject2/lib/screens/welcome_screen.dart';
-import 'package:practice/MicroProject2/lib/util/quiz_util.dart';
 // import 'model/quiz.dart';
 
 Color appColor = Colors.blue[500] as Color;
@@ -56,7 +54,7 @@ class _QuizAppState extends State<QuizApp> {
           onFinishQuiz: () => changeScreen(Screen.result)
         );
       case Screen.result:
-        return ResultScreen( );
+        return ResultScreen(onBack: () => changeScreen(Screen.quiz),);
     }
   }
 

@@ -14,7 +14,7 @@ class Answer {
         questionId = row['question_id'],
         answer = row['answer'];
 
-  bool isCorrect(String userAnswer) {
-    return userAnswer.trim().toLowerCase() == answer.trim().toLowerCase();
+  bool isCorrect(String questionAnswer) {
+     return questionAnswer.trim().toLowerCase() == answer.trim().toLowerCase();
   }
 }

@@ -18,16 +18,37 @@ class _GroceryListState extends State<GroceryList> {
     groceryItemsData = dummyGroceryItems;
   }
   
-void _addItem() async {
-  final newItem = await Navigator.of(context).push<GroceryItem>(
+  void _addItem() async {
+    final newItem = await Navigator.of(context).push<GroceryItem>(
       MaterialPageRoute(
-        builder: (ctx) => const NewItem(),
+        builder: (ctx) => NewItem(),
       ),
     );
 
     if (newItem != null) {
       setState(() {
         groceryItemsData.add(newItem);
+      });
+    }
+  }
+
+  Future<void> _editItem(GroceryItem item) async {
+    final updateItem = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => NewItem(
+          item: item,
+        ),
+      ),
+    );
+  
+    if (updateItem != null) {
+      setState(() {
+        groceryItemsData = groceryItemsData.map<GroceryItem>((groceryItem) {
+          if (groceryItem.id == item.id) {
+            return updateItem;
+          }
+          return groceryItem;
+        }).toList();
       });
     }
   }
@@ -39,7 +60,10 @@ void _addItem() async {
     if (groceryItems.isNotEmpty) {
       content = ListView.builder(
         itemCount: groceryItems.length,
-        itemBuilder: (ctx, index) => GroceryTile(groceryItems[index]),
+        itemBuilder: (ctx, index) => GestureDetector(
+          onDoubleTap: () => _editItem(groceryItems[index]),
+          child: GroceryTile(groceryItems[index])
+        ),
       );
     }
 
